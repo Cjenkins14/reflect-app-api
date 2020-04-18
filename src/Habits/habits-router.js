@@ -56,6 +56,14 @@ habitRouter
             })
             .catch(next)
     })
+    .get((req, res, next) => {
+        console.log(req.body)
+        const { habit } = req;
+        res.json({
+            id: habit.id,
+            habit: habit.habit
+        })
+    })
     .delete((req, res, next) => {
         HabitsService.deleteHabit(
             req.app.get('db'),
