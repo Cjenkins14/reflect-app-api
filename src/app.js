@@ -7,6 +7,7 @@ const { NODE_ENV } = require('./config')
 const { CLIENT_ORIGIN } = require('./config')
 const app = express()
 const habitRouter = require('./Habits/habits-router')
+const entriesRouter = require('./Entries/entries-router')
 const morganOption = (NODE_ENV === 'production')
     ? 'tiny'
     : 'common';
@@ -18,6 +19,7 @@ app.use(cors({
 }))
 
 app.use('/habits', habitRouter)
+app.use('/entry', entriesRouter)
 
 app.get('/', (req, res) => {
     res.send('Hello, world!')

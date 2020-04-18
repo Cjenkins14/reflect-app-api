@@ -37,7 +37,7 @@ habitRouter
                     .json(postRes)
             })
             .catch(next)
-    })
+    });
 habitRouter
     .route('/:habit_id')
     .all((req, res, next) => {
@@ -62,7 +62,7 @@ habitRouter
         res.json({
             id: habit.id,
             habit: habit.habit
-        })
+        });
     })
     .delete((req, res, next) => {
         HabitsService.deleteHabit(

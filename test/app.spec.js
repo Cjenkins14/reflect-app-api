@@ -17,7 +17,7 @@ describe('Habits endpoints', function () {
     before('make knex instance', () => {
         db = knex({
             client: 'pg',
-            connection: TEST_DB_URL
+            connection: process.env.TEST_DB_URL
         });
         app.set('db', db);
     })
@@ -84,3 +84,111 @@ describe('Habits endpoints', function () {
     })
 })
 
+describe('Entry endpoints', function () {
+    console.log(TEST_DB_URL)
+    let db
+    before('make knex instance', () => {
+        db = knex({
+            client: 'pg',
+            connection: process.env.TEST_DB_URL
+        });
+        app.set('db', db);
+    })
+
+    after('disconnect from db', () => db.destroy())
+    beforeEach('clean the table', () => db.raw('TRUNCATE  entry RESTART IDENTITY CASCADE;'))
+    afterEach('cleanup', () => db.raw('TRUNCATE entry RESTART IDENTITY CASCADE;'))
+
+    describe('GET /entry', () => {
+        context('Given no entries', () => {
+            it('responds with 200 and empty list', () => {
+                return supertest(app)
+                    .get('/entry')
+                    .expect(200, [])
+            })
+        })
+
+        // context('Given there are entries', () => {
+        // const testEntry = makeEntriesArray()
+        // beforeEach('insert entries', () => {
+        // return db
+        // .into('entry')
+        // .insert(testEntry)
+        // })
+        // 
+        // it('responds with 200 and all entries', () => {
+        // return supertest(app)
+        // .get('/entry')
+        // .expect(200, testEntry)
+        // })
+        // });
+    });
+
+    describe('GET /entry/:entry_id', () => {
+        context('Given no entries', () => {
+            it('responds with 404', () => {
+                const entryId = 1234;
+                return supertest(app)
+                    .get(`/entry/${entryId}`)
+                    .expect(404, { error: { message: 'Entry does not exist' } })
+            })
+        });
+
+        context('Given there are entries', () => {
+            const testEntry = makeEntriesArray()
+            beforeEach('insert entries', () => {
+                return db
+                    .into('entry')
+                    .insert(testEntry)
+            })
+
+            it('responds with 200 and the entry', () => {
+                const entryId = 1
+                const expectedEntry = testEntry[entryId - 1]
+                return supertest(app)
+                    .get(`/entry/${entryId}`)
+                    .expect(200, expectedEntry)
+            })
+        })
+    })
+
+    describe('POST /entry/:entry_id', () => {
+        it('creates a entry responds with 201 and new entry', () => {
+            const newEntry = {
+                title: "new entry",
+                content: "this new entry",
+                monthid: 2
+            };
+
+            return supertest(app)
+                .post('/entry')
+                .send(newEntry)
+                .expect(201)
+                .expect(res => {
+                    expect(res.body.title).to.eql(newEntry.title)
+                    expect(res.body.content).to.eql(newEntry.content)
+                    expect(res.body.monthid).to.eql(newEntry.monthid)
+                })
+                .then(res => {
+                    supertest(app)
+                        .get(`/entry/${res.body.id}`)
+                        .expect(res.body)
+                });
+        });
+    });
+
+    describe('DELETE /entry/:entry_id', () => {
+        describe('DELETE /entry/:entry_id', () => {
+            context('Given no entries', () => {
+                it('repsonds with 404', () => {
+                    const entryId = 1234
+                    return supertest(app)
+                        .delete(`/entry/${entryId}`)
+                        .expect(404, {
+                            error: { message: 'Entry does not exist' }
+                        })
+                })
+            })
+        })
+    })
+})

@@ -1,3 +1,4 @@
 {
-    "editor.parameterHints.cycle": true
+    "editor.parameterHints.cycle": true,
+    "editor.parameterHints.enabled": false
 }
