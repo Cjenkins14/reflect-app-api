@@ -6,7 +6,7 @@ const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const { CLIENT_ORIGIN } = require('./config')
 const app = express()
-
+const habitRouter = require('./Habits/habits-router')
 const morganOption = (NODE_ENV === 'production')
     ? 'tiny'
     : 'common';
@@ -16,6 +16,8 @@ app.use(helmet())
 app.use(cors({
     origin: CLIENT_ORIGIN
 }))
+
+app.use('/habits', habitRouter)
 
 app.get('/', (req, res) => {
     res.send('Hello, world!')
