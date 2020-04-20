@@ -5,9 +5,4 @@ CREATE TABLE habits (
     habit TEXT NOT NULL
 );
 
-INSERT INTO habits(habit)
-values 
-('Read')
-('Write')
-('Meditate')
-('Excercise');
+

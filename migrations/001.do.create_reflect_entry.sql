@@ -8,5 +8,3 @@ CREATE TABLE entry (
     monthid INTEGER NOT NULL
 );
 
-INSERT INTO entry (title, content, monthid)
-values ('new entry', 'new entry content', 1);
