@@ -2,6 +2,20 @@ const express = require('express');
 const HomeService = require('./home-service');
 const homeRouter = express.Router();
 
+
+homeRouter
+    .route('/')
+    .get((req, res, next) => {
+        HomeService.getMonths(
+            req.app.get('db'),
+        )
+            .then(months => {
+                res.json(months.map(month => ({
+                    id: month.id,
+                    name: month.name
+                })))
+            })
+    })
 homeRouter
     .route('/:month_id')
     .all((req, res, next) => {

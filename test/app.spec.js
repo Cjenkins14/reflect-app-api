@@ -2,7 +2,10 @@ const app = require('../src/app');
 const knex = require('knex');
 require('dotenv').config();
 const { TEST_DB_URL } = require('../src/config');
-const { makeHabitsArray, makeEntriesArray } = require('./reflect.fixtures')
+const { makeHabitsArray, makeEntriesArray, makeMonthsArray } = require('./reflect.fixtures')
+
+
+
 describe('App', () => {
     it('GET / responds with 200 containing "Hello, world!"', () => {
         return supertest(app)
@@ -190,5 +193,43 @@ describe('Entry endpoints', function () {
                 })
             })
         })
+    })
+})
+
+describe('Home endpoint', function () {
+    let db
+    before('make knex instance', () => {
+        db = knex({
+            client: 'pg',
+            connection: process.env.TEST_DB_URL
+        });
+        app.set('db', db);
+    })
+    after('disconnect from db', () => db.destroy())
+    beforeEach('clean the table', () => db.raw('TRUNCATE months RESTART IDENTITY CASCADE;'))
+    afterEach('cleanup', () => db.raw('TRUNCATE months RESTART IDENTITY CASCADE;'))
+
+    describe('GET /home', () => {
+        context('Given no months', () => {
+            it('responds with 200 and empty list', () => {
+                return supertest(app)
+                    .get('/entry')
+                    .expect(200, [])
+            })
+        })
+        context('Given there are entries', () => {
+            const testMonths = makeMonthsArray()
+            beforeEach('insert entries', () => {
+                return db
+                    .into('months')
+                    .insert(testMonths)
+            })
+
+            it('responds with 200 and all entries', () => {
+                return supertest(app)
+                    .get('/home')
+                    .expect(200, testMonths)
+            })
+        });
     })
 })
