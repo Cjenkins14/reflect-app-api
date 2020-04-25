@@ -23,11 +23,13 @@ entriesRouter
         const {
             title,
             content,
+            date,
             monthid
         } = req.body;
         const newEntry = {
             title,
             content,
+            date,
             monthid
         }
         for (const [key, value] of Object.entries(newEntry))
