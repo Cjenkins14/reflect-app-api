@@ -11,10 +11,10 @@ This project utitlizes Node.js, PostgreSQL, Express, with Mocha and Chai for tes
 
 ## Endpoints
 '/entry': Used for GET and POST methods allowing you to view all entries, or create a new entry. <br/>
-'/entry/:id': Used for GET and DELETE methods to find an entry by it's ID to view or delete.
-'/habits': Used for GET and POST methods to view all the tasks or create a new task.
-'/habits/:id': Used to for DELETE method to remove a task from the list.
-'/home/:month_id': Used for GET methods to view the entries by the month ID.
+'/entry/:id': Used for GET and DELETE methods to find an entry by it's ID to view or delete. <br/>
+'/habits': Used for GET and POST methods to view all the tasks or create a new task. <br/>
+'/habits/:id': Used to for DELETE method to remove a task from the list. <br/>
+'/home/:month_id': Used for GET methods to view the entries by the month ID. <br/>
 
 ## Screenshots
 
