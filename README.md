@@ -10,7 +10,7 @@ entries and it stores them organized by date. Users can also create a task list,
 This project utitlizes Node.js, PostgreSQL, Express, with Mocha and Chai for testing.
 
 ## Endpoints
-'/entry': Used for GET and POST methods allowing you to view all entries, or create a new entry.
+'/entry': Used for GET and POST methods allowing you to view all entries, or create a new entry. <br/>
 '/entry/:id': Used for GET and DELETE methods to find an entry by it's ID to view or delete.
 '/habits': Used for GET and POST methods to view all the tasks or create a new task.
 '/habits/:id': Used to for DELETE method to remove a task from the list.
