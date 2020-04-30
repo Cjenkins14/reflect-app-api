@@ -15,7 +15,6 @@ describe('App', () => {
 });
 
 describe('Habits endpoints', function () {
-    console.log(TEST_DB_URL)
     let db
     before('make knex instance', () => {
         db = knex({
@@ -88,7 +87,6 @@ describe('Habits endpoints', function () {
 })
 
 describe('Entry endpoints', function () {
-    console.log(TEST_DB_URL)
     let db
     before('make knex instance', () => {
         db = knex({
@@ -111,20 +109,6 @@ describe('Entry endpoints', function () {
             })
         })
 
-        // context('Given there are entries', () => {
-        // const testEntry = makeEntriesArray()
-        // beforeEach('insert entries', () => {
-        // return db
-        // .into('entry')
-        // .insert(testEntry)
-        // })
-        // 
-        // it('responds with 200 and all entries', () => {
-        // return supertest(app)
-        // .get('/entry')
-        // .expect(200, testEntry)
-        // })
-        // });
     });
 
     describe('GET /entry/:entry_id', () => {

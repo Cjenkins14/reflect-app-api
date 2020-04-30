@@ -57,7 +57,6 @@ habitRouter
             .catch(next)
     })
     .get((req, res, next) => {
-        console.log(req.body)
         const { habit } = req;
         res.json({
             id: habit.id,
